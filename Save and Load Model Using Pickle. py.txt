@@ -1,0 +1,25 @@
+import pickle
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+
+# Load dataset
+iris = load_iris()
+X, y = iris.data, iris.target
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Train a RandomForest model
+model = RandomForestClassifier()
+model.fit(X_train, y_train)
+
+# Save the model using pickle
+with open('model_pickle.pkl', 'wb') as file:
+    pickle.dump(model, file)
+
+# Load the model using pickle
+with open('model_pickle.pkl', 'rb') as file:
+    loaded_model_pickle = pickle.load(file)
+
+# Test the loaded model
+accuracy_pickle = loaded_model_pickle.score(X_test, y_test)
+print(f"Accuracy of the loaded model (pickle): {accuracy_pickle}")
